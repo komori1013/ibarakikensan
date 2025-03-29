@@ -68,4 +68,5 @@ CREATE TABLE inventory_movements (
     reason VARCHAR(255) NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
+    aaaa
 );
