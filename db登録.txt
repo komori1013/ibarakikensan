@@ -6,8 +6,8 @@ GRANT ALL PRIVILEGES ON ibarakikensan_db.* TO "ibarakikensan_user"@"localhost" I
 
 CREATE TABLE member (
   member_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  account VACHAR(255) NOT NULL,
-  password VACHAR(255) NOT NULL,
+  member_account VARCHAR(255) NOT NULL,
+  member_password VARCHAR(255) NOT NULL,
   family_name VARCHAR(20) NOT NULL,
   first_name VARCHAR(20) NOT NULL,
   family_name_kana VARCHAR(20) NOT NULL,
@@ -23,7 +23,8 @@ CREATE TABLE member (
   tel2 VARCHAR(6) NOT NULL,
   tel3 VARCHAR(6) NOT NULL,
   delete_flg TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
-)
+  PRIMARY KEY (member_id)
+);
 
 CREATE TABLE postcode (
   jis VARCHAR(5),
@@ -40,33 +41,58 @@ CREATE TABLE postcode (
   comment3 TINYINT(1) UNSIGNED,
   comment4 TINYINT(1) UNSIGNED,
   comment5 TINYINT(1) UNSIGNED,
-  comment6 TINYINT(1) UNSIGNED, 
+  comment6 TINYINT(1) UNSIGNED
 );
 
 SET GLOBAL local_infile=on;
 
-LOAD DATA INFILE 'c:/xampp/htdocs/DT/member/KEN_ALL.CSV'INTO TABLE postcode FIELDS TERMINATED BY"," OPTIONALLY ENCLOSED BY'"';
+LOAD DATA INFILE 'c:/xampp/htdocs/DT/member/KEN_ALL.CSV'
+INTO TABLE postcode 
+FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
 
 CREATE TABLE products (
-  product_id int unsigned not null auto_increment,
-  product_name varchar(100) not null,
-  detail text null,
-  price DECIMAL(10,2) unsigned not null,
-  image varchar(50) not null,
+  product_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  product_name VARCHAR(100) NOT NULL,
+  detail TEXT NULL,
+  price DECIMAL(10,2) UNSIGNED NOT NULL,
+  image VARCHAR(50) NOT NULL,
   stock_quantity INT UNSIGNED NOT NULL DEFAULT 0,
-  ctg_id tinyint unsigned not null,
+  ctg_id TINYINT UNSIGNED NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  primary key(product_id)
-)
+  PRIMARY KEY (product_id),
+  INDEX crt_idx (ctg_id)
+);
 
 CREATE TABLE inventory_movements (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,  
-    product_id INT UNSIGNED NOT NULL,   
-    change_type ENUM('IN', 'OUT') NOT NULL,
-    quantity INT UNSIGNED NOT NULL NULL DEFAULT 0,
-    reason VARCHAR(255) NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
-    aaaa
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,  
+  product_id INT UNSIGNED NOT NULL,   
+  change_type ENUM('IN', 'OUT') NOT NULL,
+  quantity INT UNSIGNED NOT NULL DEFAULT 0,
+  reason VARCHAR(255) NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
+);
+
+CREATE TABLE cart (
+  crt_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  customer_no INT UNSIGNED NOT NULL,
+  item_id INT UNSIGNED NOT NULL,
+  num TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+  delete_flg TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+  PRIMARY KEY (crt_id),
+  INDEX crt_idx (customer_no, delete_flg)
+);
+
+CREATE TABLE category (
+  ctg_id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  category_name VARCHAR(100) NOT NULL,
+  PRIMARY KEY (ctg_id)
+);
+
+CREATE TABLE administer (
+  admin_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  admin_account VARCHAR(255) NOT NULL,
+  admin_password VARCHAR(255) NOT NULL,
+  PRIMARY KEY (admin_id)
 );
