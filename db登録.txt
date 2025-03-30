@@ -96,3 +96,5 @@ CREATE TABLE administer (
   admin_password VARCHAR(255) NOT NULL,
   PRIMARY KEY (admin_id)
 );
+
+INSERT INTO administer(admin_account, admin_password) VALUES ("takahirokomori","takahiro0123");

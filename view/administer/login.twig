@@ -20,11 +20,12 @@
           <th>パスワード<span class="red">*</span></th>
           <td><input type="text" name="password" value="{{dataArr.password}}">
               {% if errArr.password | length > 0 %}<br><span class="red">{{errArr.password}}</span>{% endif %}
+              {% if errArr.dbAccountPassword | length > 0 %}<br><span class="red">{{errArr.dbAccountPassword}}</span>{% endif %}
           </td>
         </tr>
       </table>
       <div>
-        <input type="submit" name="confirm" value="登録確認">
+        <input type="submit" name="login" value="ログイン">
       </div>
     </form>
     {% include "footer.twig" %}

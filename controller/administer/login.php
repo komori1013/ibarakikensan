@@ -28,6 +28,11 @@ foreach($dataArr as $key => $val){
   $errArr[$key] = "";
 };
 
+echo "<pre>";
+var_dump($dataArr);
+var_dump($errArr);
+echo "</pre>";
+
 $context = [];
 $context["dataArr"] = $dataArr;
 $context["errArr"] = $errArr;
