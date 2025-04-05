@@ -1,0 +1,17 @@
+INSERT INTO category(category_name) VALUES ("食品");
+INSERT INTO category(category_name) VALUES ("農産物");
+INSERT INTO category(category_name) VALUES ("飲料");
+
+INSERT INTO products(product_name, detail, price, image, stock_quantity, ctg_id)
+VALUES ("伝承焼き芋「吉之介焼き」", "鹿吉芋師、芋と焼きの技術を誇る最高傑作品。鹿吉焼き芋の原点である伝統的な焼き方、壷焼き芋を再現。栽培や管理のこだわりだけではなく火、釜、技術にもこだわり抜き土、芋、火、に敬意を込め焼き上げた鹿吉が誇る傑作品。芳醇な香りと”もちっ”とした食感に上品な甘さに仕上げております。普段の焼き芋では物足りなさを感じている焼き芋ファンに是非", 3980, "shikakichi_3045_900x.jpg", 1, 1);
+
+INSERT INTO products(product_name, detail, price, image, stock_quantity, ctg_id)
+VALUES("芋堅干（いもけんぴ）","カリカリ食感と上品な甘さの鹿吉謹製 芋けんぴ
+繊維のきめが細かいシルクスイートを芋けんぴに仕上げました。
+シルクスイートの品質の高さを感じて頂くよう砂糖を最小限に抑え上品な味に仕上げております。",3000,"kenpi_img_900x.jpg",1,1);
+
+
+INSERT INTO products(product_name, detail, price, image, stock_quantity, ctg_id)
+VALUES("干し芋","しっとりなめらかな食感！黄金色の干し芋
+繊維のきめが細かいシルクスイートを干し芋に加工しました。
+さつまいも本来の甘さと、しっとりとした食感を楽しめます。",3000,"hoshiimo_img_1080x.jpg",1,1);

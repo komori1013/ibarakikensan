@@ -1,0 +1,107 @@
+mysql -u root -p
+
+CREATE DATABASE ibarakikensan_db DEFAULT CHARACTER SET utf8;
+
+GRANT ALL PRIVILEGES ON ibarakikensan_db.* TO "ibarakikensan_user"@"localhost" IDENTIFIED BY "ibarakikensan_pass" WITH GRANT OPTION;
+
+CREATE TABLE member (
+  member_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  member_account VARCHAR(255) NOT NULL,
+  member_password VARCHAR(255) NOT NULL,
+  family_name VARCHAR(20) NOT NULL,
+  first_name VARCHAR(20) NOT NULL,
+  family_name_kana VARCHAR(20) NOT NULL,
+  first_name_kana VARCHAR(20) NOT NULL,
+  year VARCHAR(4) NOT NULL,
+  month VARCHAR(2) NOT NULL,
+  day VARCHAR(2) NOT NULL,
+  zip1 VARCHAR(3) NOT NULL,
+  zip2 VARCHAR(4) NOT NULL,
+  address VARCHAR(100) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  tel1 VARCHAR(6) NOT NULL,
+  tel2 VARCHAR(6) NOT NULL,
+  tel3 VARCHAR(6) NOT NULL,
+  delete_flg TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (member_id)
+);
+
+CREATE TABLE postcode (
+  jis VARCHAR(5),
+  old_zip VARCHAR(5),
+  zip VARCHAR(7),
+  pref_kana VARCHAR(100),
+  city_kana VARCHAR(100),
+  town_kana VARCHAR(100),
+  pref VARCHAR(100),
+  city VARCHAR(100),
+  town VARCHAR(100),
+  comment1 TINYINT(1) UNSIGNED,
+  comment2 TINYINT(1) UNSIGNED,
+  comment3 TINYINT(1) UNSIGNED,
+  comment4 TINYINT(1) UNSIGNED,
+  comment5 TINYINT(1) UNSIGNED,
+  comment6 TINYINT(1) UNSIGNED
+);
+
+SET GLOBAL local_infile=on;
+
+LOAD DATA INFILE 'c:/xampp/htdocs/DT/member/KEN_ALL.CSV'
+INTO TABLE postcode 
+FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
+
+CREATE TABLE products (
+  product_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  product_name VARCHAR(100) NOT NULL,
+  detail TEXT NULL,
+  price DECIMAL(10,2) UNSIGNED NOT NULL,
+  image VARCHAR(100) NOT NULL,
+  stock_quantity INT UNSIGNED NOT NULL DEFAULT 0,
+  ctg_id TINYINT UNSIGNED NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (product_id),
+  INDEX crt_idx (ctg_id),
+);
+
+ALTER TABLE products ADD UNIQUE (product_name);
+
+CREATE TABLE inventory_movements (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,  
+  product_name VARCHAR(100) NOT NULL,
+  customer_no VARCHAR(255) NOT NULL,
+  change_type ENUM('IN', 'OUT') NOT NULL,
+  quantity INT UNSIGNED NOT NULL DEFAULT 0,
+  reason VARCHAR(255) NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (product_name) REFERENCES products(product_name) ON DELETE CASCADE
+);
+
+CREATE TABLE cart (
+  crt_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  customer_no VARCHAR(100) NOT NULL,
+  item_id INT UNSIGNED NOT NULL,
+  num TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+  delete_flg TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+  PRIMARY KEY (crt_id),
+  INDEX crt_idx (customer_no, delete_flg)
+);
+ALTER TABLE cart CHANGE COLUMN price totalprice DECIMAL(10, 2) UNSIGNED NOT NULL DEFAULT 0.00;
+
+CREATE TABLE category (
+  ctg_id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  category_name VARCHAR(100) NOT NULL,
+  PRIMARY KEY (ctg_id)
+);
+
+
+CREATE TABLE administer (
+  admin_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  admin_account VARCHAR(255) NOT NULL,
+  admin_password VARCHAR(255) NOT NULL,
+  PRIMARY KEY (admin_id)
+);
+
+INSERT INTO administer(admin_account, admin_password) VALUES ("takahirokomori","takahiro0123");

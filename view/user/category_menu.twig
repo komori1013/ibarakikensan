@@ -1,0 +1,12 @@
+<div id="category">
+  <ul>
+    <li><a href="{{constant("ibarakikensan\\common\\Bootstrap::ENTRY_URL")}}controller/item/list.php">全て</a></li>
+    {% for value in cateArr %}
+     <li><a href="{{constant("ibarakikensan\\common\\Bootstrap::ENTRY_URL")}}controller/item/list.php?ctg_id={{value.ctg_id}}">{{value.category_name}}</a></li>
+    {% endfor %}
+    <form action="/ibarakikensan/controller/item/list.php" method="GET">
+    <input type="text" name="searchKeyword" value="">
+    <input type="submit" value="検索">
+  </form>
+  </ul>
+</div>
