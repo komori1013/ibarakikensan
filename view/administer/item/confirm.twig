@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../../../common/css/style.css">
+    <title></title>
+  </head>
+  <body>
+    {% include "header.twig" %}
+    <div>{{message}}</div>
+    <form method="post" action="confirm.php">
+      <table>
+        <tr>
+          <th>入出庫</th>
+          <td>
+            {{inOutArr[dataArr.inOut]}}<br>
+          </td>
+        </tr>
+        <tr>
+          <th>区分</th>
+          <td>
+            {{reasonArr[dataArr.reason]}}<br>
+          </td>
+        </tr>
+        <tr>
+          <th>カテゴリー</th>
+          <td>
+            {{ctgArr[dataArr.category]}}<br>
+          </td>
+        </tr>
+        <tr>
+          <th>商品名</th>
+          <td>{{dataArr.product}}</td>
+        </tr>
+        <tr>
+          <th>価格</th>
+          <td>{{dataArr.price}}</td>
+        </tr>
+        <tr>
+          <th>数量</th>
+          <td>{{dataArr.quantity}}</td>
+        </tr>
+        <tr>
+          <th>商品明細</th>
+          <td>{{dataArr.detail}}</td>
+        </tr>
+        <tr>
+          <th>画像</th>
+        </tr>
+      </table>
+      <input type="submit" name="confirm" value="戻る">
+      <input type="submit" name="confirm" value="登録完了">
+      {% for key, value in dataArr %}
+        {% if value is iterable %}
+          {% for v in value %}
+            <input type ="hidden" name="{{key}}[]" value="{{v}}">
+          {% endfor %}
+        {% else %}
+          <input type="hidden" name="{{key}}" value="{{value}}">
+        {% endif %}
+      {% endfor %}
+    </form>
+    {% include "footer.twig" %}
+  </body>
+</html>
+

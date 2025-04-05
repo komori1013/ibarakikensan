@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset = "utf-8">
+    <link rel="stylesheet" type="text/css" href="../../../common/css/style.css">
+    <title></title>
+  </head>
+  <body>
+    {% include "header.twig" %}
+    <h3>登録確認ページ</h3>
+    <form method="post" action="confirm.php">
+      <table>
+        <tr>
+          <th>お名前(氏名)</th>
+          <td>{{dataArr.family_name}} {{dataArr.first_name}}</td>
+        </tr>
+        <tr>
+          <th>お名前(かな)</th>
+          <td>{{dataArr.family_name_kana}} {{dataArr.first_name_kana}}</td>
+        </tr>
+        <tr>
+          <th>生年月日</th>
+          <td>{{dataArr.year}}年 {{dataArr.month}}月 {{dataArr.day}}日</td>
+        </tr>
+        <tr>
+          <th>郵便番号</th>
+          <td>{{dataArr.zip1}} - {{dataArr.zip2}}</td>
+        </tr>
+        <tr>
+          <th>住所</th>
+          <td>{{dataArr.address}}</td>
+        </tr>
+        <tr>
+          <th>メールアドレス</th>
+          <td>{{dataArr.email}}</td>
+        </tr>
+        <tr>
+          <th>電話番号</th>
+          <td>{{dataArr.tel1}} - {{dataArr.tel2}} - {{dataArr.tel3}}</td>
+        </tr>
+      </table>
+      <div>
+        <input type="submit" name="back" value="戻る">
+        <input type="submit" name="complete" value="登録完了">
+        {% for key, value in dataArr %}
+          {% if value is iterable %}
+            {% for v in value %}
+              <input type ="hidden" name="{{key}}[]" value="{{v}}">
+            {% endfor %}
+          {% else %}
+            <input type="hidden" name="{{key}}" value="{{value}}">
+          {% endif %}
+        {% endfor %}
+      </div>
+    </form>
+    {% include "footer.twig" %}
+  </body>
+</html>
+

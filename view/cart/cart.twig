@@ -1,0 +1,94 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../../common/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{{ constant('ibarakikensan\\common\\Bootstrap::ENTRY_URL') }}common/js/edit.js"></script>
+    <title></title>
+  </head>
+  <body>
+    {% include "header.twig" %}
+    <h3>カートページ</h3>
+    <div id="wrapper">
+      <div id="cart_list">
+      {% if errArr | length > 0 %}<div>エラー</div>
+        <div>
+          {% for value in errArr %}
+          <ul>
+            <li class="name">{{ value.product_name }}</li>
+            <li class="name">{{ value.error }}</li>
+          </ul>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+        <p>カート内商品数：{{ sumNum }}個</p>
+        <p>合計金額：&yen;{{ sumPrice|number_format(0, ".", ",") }}</p>
+      </div>
+      {% if dataArr | length ==  0 %}
+        <p class="empty">カートに商品は入っていません</p>
+      {% else %}
+        <div id="item_list">
+        {% for value in dataArr %}
+          <div class="item">
+            <ul>
+              <li class="name">{{ value.product_name }}</li>
+              <li class="price">&yen;{{ value.price|number_format(0, ".", ",") }}</li>
+              <input type="hidden" class="product-id" value="{{ value.product_id }}">
+              <input type="hidden" class="crt-id" value="{{ value.crt_id }}">
+              <li class="num">
+                <input type="text" class="num-input" value="{{ value.num }}">個
+                <input type="button" class="edit-btn" data-product-id="{{ value.product_id }}" data-crt-id="{{ value.crt_id }}" data-price="{{ value.price }}"  value="変更">
+              </li>
+              <li class="price">&yen;{{ value.totalprice|number_format(0, ".", ",") }}</li>
+              <li><a href="{{constant("ibarakikensan\\common\\Bootstrap::ENTRY_URL")}}controller/cart/cart.php?crt_id={{value.crt_id}}">削除</a></li>
+            </ul>
+          </div>
+        {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    <form method="post" action="{{ constant('ibarakikensan\\common\\Bootstrap::ENTRY_URL') }}controller/cart/payment.php">
+      {% for key, value in dataArr %}
+        {% for k,v in value %}
+          <input type="hidden" name="{{ key }}[{{ k }}]" value="{{ v }}">
+        {% endfor %}
+      {% endfor %}
+      <input type="submit" name="submit" value="購入画面へ">
+    </form>
+
+    <script>
+      $(function(){
+        var entry_url = "{{ constant('ibarakikensan\\common\\Bootstrap::ENTRY_URL') }}";
+        
+        if (!entry_url) {
+          console.error("entry_url が取得できません");
+        }
+
+        $(".edit-btn").click(function(){
+          var parent = $(this).closest(".item");
+          var product_id = $(this).data("product-id");
+          var crt_id = $(this).data("crt-id");
+          var quantity = parseInt(parent.find(".num-input").val(), 10);
+          var price = $(this).data("price");
+          
+          if (isNaN(quantity) || quantity <= 0) {
+            alert("数量は1以上の整数を入力してください。");
+            return;
+          }
+          
+          var url = entry_url + "controller/cart/editcart.php?" +
+            "product_id=" + encodeURIComponent(product_id) +
+            "&crt_id=" + encodeURIComponent(crt_id) +
+            "&quantity=" + encodeURIComponent(quantity) +
+            "&price=" + encodeURIComponent(price);
+          
+          console.log("リダイレクトURL: ", url);
+          location.href = url;
+        });
+      });
+    </script>
+    </br><a href="http://localhost/ibarakikensan/controller/item/list.php">トップページへ戻る</a>
+    {% include "footer.twig" %}
+  </body>
+</html>

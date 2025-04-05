@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="../../../common/css/style.css">
+    <title>在庫一覧</title>
+  </head>
+  <body>
+    {% include "header.twig" %}
+    <h3>在庫一覧ページ</h3>
+
+    {% if productArr is not empty %}
+      <table border="1" cellpadding="5" cellspacing="0">
+        <thead>
+          <tr>
+            <th>商品名</th>
+            <th>在庫数</th>
+            <th>価格</th>
+            <th>画像ファイル名</th>
+            <th>詳細</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for value in productArr %}
+            <tr>
+              <td>{{ value.product_name }}</td>
+              <td>{{ value.stock_quantity }} 個</td>
+              <td>&yen;{{ value.price|number_format(0, ".", ",") }}</td>
+              <td>
+                {% if value.image is not empty %}
+                  {{ value.image }}
+                {% else %}
+                  （なし）
+                {% endif %}
+              </td>
+              <td>
+                {% if value.detail is not empty %}
+                  {{ value.detail }}
+                {% else %}
+                  （説明なし）
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <p><strong>商品数合計：</strong>{{ productArr | length }} 件</p>
+    {% else %}
+      <p>表示できる在庫データがありません。</p>
+    {% endif %}
+
+    <br><a href="../../../controller/administer/index.php">トップページへ戻る</a>
+    {% include "footer.twig" %}
+  </body>
+</html>

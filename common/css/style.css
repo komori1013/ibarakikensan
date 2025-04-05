@@ -4,3 +4,22 @@
 
   font-size:12px;
 }
+
+ul
+{
+  padding-left: 0;
+}
+
+li
+{
+  list-style:none;
+}
+
+.header-img-container {
+  text-align: center; /* 中央揃え */
+}
+.header-img {
+  width: 50%;
+  max-height: 200px;
+  object-fit: cover;
+}
