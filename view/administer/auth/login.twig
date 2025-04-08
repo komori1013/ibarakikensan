@@ -6,7 +6,7 @@
     <title></title>
   </head>
   <body>
-    {% include "header.twig" %}
+    {% include "administer/header.twig" %}
     <h3>管理者用ログインページ</h3>
     <form method="post" action="../../../controller/administer/auth/authentication.php">
       <table>
@@ -28,7 +28,7 @@
       </table>
       <input type="submit" name="login" value="ログイン">
     </form>
-    {% include "footer.twig" %}
+    {% include "administer/footer.twig" %}
   </body>
 </html>
   

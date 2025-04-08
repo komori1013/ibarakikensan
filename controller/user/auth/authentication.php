@@ -24,8 +24,8 @@ if (isset($_POST["login"]) === true) {
   } else {
     $table = "member";
     $col = "member_account, member_password";
-    $where = "member_account = ? AND member_password = ?";
-    $arrVal = [$dataArr["account"], $dataArr["password"]];
+    $where = "member_account = ? AND member_password = ? AND delete_flg = ?";
+    $arrVal = [$dataArr["account"], $dataArr["password"], 0];
     $res = $db->select($table, $col, $where, $arrVal);
   
     if($res !== false && count($res) !== 0) {

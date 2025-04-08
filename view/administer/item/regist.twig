@@ -6,7 +6,7 @@
     <title></title>
   </head>
   <body>
-    {% include "header.twig" %}
+    {% include "administer/header.twig" %}
     <h3>商品登録ページ</h3>
     {% if message | length > 0 %}
       <br><span class = "red">{{message}}</span>
@@ -90,7 +90,7 @@
       <input type="submit" name="confirm" value="登録確認">
     </form>
     </br><a href = "../../../controller/administer/index.php">トップページへ戻る</a>
-    {% include "footer.twig" %}
+    {% include "administer/footer.twig" %}
   </body>
 </html>
   

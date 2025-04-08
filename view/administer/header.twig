@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" type="text/css" href="../common/css/style.css">
+  </head>
+  <body>
+    <header class="bg-gray-100 p-4 shadow-md">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="text-gray-800 text-sm">
+          {% if admin_account is defined %}
+            こんにちは！{{ admin_account }} 様
+          {% else %}
+            こんにちは！ゲスト 様
+          {% endif %}
+        </div>
+
+        <div>
+          {% if admin_account is defined%}
+            <a href="/ibarakikensan/controller/administer/auth/logout.php"
+               class="inline-block bg-blue-500 text-white text-sm px-4 py-2 rounded hover:bg-blue-600 transition">
+              ログアウト
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+  </body>
+</html>
