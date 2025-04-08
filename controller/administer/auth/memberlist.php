@@ -29,9 +29,11 @@ $query = "SELECT"
   ." email,"
   ." created_at"
   ." FROM"
-  ." member";
+  ." member"
+  ." WHERE delete_flg = ?";  // ← 修正済み！
 
-$dataArr = $db->setquery($query, $where=[]);
+$arrVal = [0]; // 削除されていない会員だけ取得
+$dataArr = $db->setQuery($query, $arrVal);
 $context = [];
 $context["dataArr"] = $dataArr;
 isset($_SESSION["admin_account"])? $context["admin_account"] = $_SESSION["admin_account"]:"";

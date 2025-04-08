@@ -8,7 +8,7 @@
     <title></title>
   </head>
   <body>
-    {% include "header.twig" %}
+    {% include "user/header.twig" %}
     <h3>会員登録ページ</h3>
     <input type="hidden" name="entry_url" id="entry_url" value="{{constant("ibarakikensan\\common\\Bootstrap::ENTRY_URL")}}">
     <form method="post" action="confirm.php">
@@ -102,7 +102,7 @@
       <input type="submit" name="confirm" value="登録確認">
     </form>
     </br><a href="http://localhost/ibarakikensan/controller/item/list.php">トップページへ戻る</a>
-    {% include "footer.twig" %}
+    {% include "user/footer.twig" %}
   </body>
 </html>
   
