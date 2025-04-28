@@ -10,18 +10,13 @@
     <!-- ヘッダー -->
     {% include "user/header.twig" %}
 
-    <!-- ヘッダー画像 -->
-   <div class="flex justify-center items-center my-6">
-       <img src="../../image/site_signboard.png" alt="ヘッダー画像" class="w-1/2 max-h-52 object-contain">
-    </div>
-
     <!-- レイアウト全体（サイドバーとメインコンテンツを横並びにするためのコンテナ） -->
     <div class="flex mt-6">
 
-      <!-- サイドバー -->
-      <div class="w-64 bg-gray-200 text-gray-700 p-4">
+     <!-- サイドバー -->
+      <div class="w-64 text-gray-700 p-4">
         <div id="category">
-          <h2 class="text-md font-semibold mb-4 text-gray-600">カテゴリー</h2>
+          <h2 class="text-md font-semibold mb-4 text-gray-700">カテゴリー</h2>
           <ul>
             <li><a href="{{constant("ibarakikensan\\common\\Bootstrap::ENTRY_URL")}}controller/item/list.php" class="block py-2 px-3 hover:bg-gray-300 text-sm">全て</a></li>
             {% for value in cateArr %}
@@ -32,14 +27,14 @@
           <!-- 検索フォーム -->
           <form action="/ibarakikensan/controller/item/list.php" method="GET" class="mt-4">
             <input type="text" name="searchKeyword" value="" class="px-3 py-2 w-full mb-4 border border-gray-300 rounded text-sm text-gray-700" placeholder="検索キーワード">
-            <input type="submit" value="検索" class="w-full bg-blue-100 text-blue-600 py-2 rounded hover:bg-blue-200 text-sm">
+            <input type="submit" value="検索" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm">
           </form>
         </div>
       </div>
 
       <!-- メインコンテンツ -->
       <div class="flex-1 p-6 overflow-y-auto">
-        <h3 class="text-xl font-semibold mb-4 text-gray-800">トップページ</h3>
+        <h3 class="text-xl font-semibold mb-4 text-gray-700">トップページ</h3>
 
         <!-- 商品一覧 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -52,8 +47,8 @@
                 <img src="{{ imagePath }}" alt="商品画像" class="w-full h-32 object-cover rounded-lg">
               </a>
               <h4 class="text-md font-semibold mb-2 text-gray-700">{{ value.product_name }}</h4>
-              <p class="text-sm text-gray-600">&yen;{{ value.price|number_format(0, ".", ",") }}</p>
-              <p class="text-sm text-gray-500 mt-2">{{ value.detail }}</p>
+              <p class="text-sm text-gray-700">&yen;{{ value.price|number_format(0, ".", ",") }}</p>
+              <p class="text-sm text-gray-700 mt-2">{{ value.detail }}</p>
             </div>
           {% endfor %}
         </div>

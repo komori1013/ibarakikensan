@@ -1,96 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
     <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.4/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../../common/css/style.css">
-    <title></title>
+    <title>商品登録ページ</title>
   </head>
-  <body>
+  <body class="bg-gray-50 text-gray-700">
+
     {% include "administer/header.twig" %}
-    <h3>商品登録ページ</h3>
-    {% if message | length > 0 %}
-      <br><span class = "red">{{message}}</span>
-    {% endif %}
-    <form method="post" action="../../../controller/administer/item/confirm.php" enctype="multipart/form-data">
-      <table>
-        <tr>
-          <th>入出庫<span class="red">*</span></th>
-          <td>
-            {% for index, label in inOutArr %}
-              <input type="radio" name="inOut" value="{{index}}" id="{{index}}"
-              {% if dataArr.inout == index %}checked="checked"{% endif %}>
-              <label for="{{index}}">{{label}}</label>
-            {% endfor %}
-            {% if errArr.inOut | length > 0 %}
-              <br><span class = "red">{{errArr.inOut}}</span>
-            {% endif %}
-          </td>
-        </tr>
-        <tr>
-        <tr>
-          <th>区分<span class="red">*</span></th>
-          <td>
-            {% for index, label in reasonArr %}
-              <input type="radio" name="reason" value="{{index}}" id="{{index}}"
-              {% if dataArr.reason == index %}checked="checked"{% endif %}>
-              <label for="{{index}}">{{label}}</label>
-            {% endfor %}
-            {% if errArr.reason | length > 0 %}
-              <br><span class = "red">{{errArr.reason}}</span>
-            {% endif %}
-          </td>
-        </tr>
-        <tr>
-          <th>商品名<span class="red">*</span></th>
-          <td><input type="text" name="product" value="{{dataArr.product}}">
-            {% if errArr.product | length > 0 %}<br><span class="red">{{errArr.product}}</span>{% endif %}
-          </td>
-        </tr>
-        <tr>
-          <th>個数<span class="red">*</span></th>
-          <td><input type="text" name="quantity" value="{{dataArr.quantity }}">
-            {% if errArr.quantity| length > 0 %}<br><span class="red">{{errArr.quantity}}</span>{% endif %}
-          </td>
-        </tr>
-        <tr>
-          {# <td>初回入庫時に入力してください。</td> #}
-        <tr>
-          <th>カテゴリー<span class="red">*</span></th>
-          <td>
-            {% for index, label in ctgArr %}
-              <input type="radio" name="category" value="{{index}}" id="{{index}}"
-              {% if dataArr.category == index %}checked="checked"{% endif %}>
-              <label for="{{index}}">{{label}}</label>
-            {% endfor %}
-            {% if errArr.category | length > 0 %}
-              <br><span class = "red">{{errArr.category}}</span>
-            {% endif %}
-          </td>
-        </tr>
-        <tr>
-          <th>単価</th>
-          <td><input type="text" name="price" value="{{dataArr.price}}">
-            {% if errArr.price | length > 0 %}<br><span class="red">{{errArr.price}}</span>{% endif %}
-          </td>
-        </tr>
-        <tr>
-          <th>画像</th>
-          <td><input type="file" name="image">
-            {% if errArr.image | length > 0 %}<br><span class="red">{{errArr.image}}</span>{% endif %}
-          </td>
-        </tr>
-        <tr>
-          <th>詳細情報</th>
-          <td><textarea name="detail"  rows="5" cols="33">{{ dataArr.detail }}</textarea>
-            {% if errArr.detail | length > 0 %}<br><span class="red">{{errArr.detail}}</span>{% endif %}
-          </td>
-        </tr>
-        <tr>
-      </table>
-      <input type="submit" name="confirm" value="登録確認">
-    </form>
-    </br><a href = "../../../controller/administer/index.php">トップページへ戻る</a>
+
+    <div class="container mx-auto p-6">
+
+      <h3 class="text-xl font-semibold text-center mb-6">商品登録ページ</h3>
+
+      {% if message | length > 0 %}
+        <div class="text-red-600 text-center mb-4">
+          <span>{{ message }}</span>
+        </div>
+      {% endif %}
+
+      <form method="post" action="../../../controller/administer/item/confirm.php" enctype="multipart/form-data">
+
+        <table class="w-full table-auto mb-6">
+          <tr>
+            <th class="text-left p-2">入出庫<span class="text-red-500">*</span></th>
+            <td class="p-2">
+              {% for index, label in inOutArr %}
+                <input type="radio" name="inOut" value="{{ index }}" id="{{ index }}" {% if dataArr.inout == index %}checked="checked"{% endif %}>
+                <label for="{{ index }}">{{ label }}</label>
+              {% endfor %}
+              {% if errArr.inOut | length > 0 %}
+                <div class="text-red-600 text-sm mt-2">{{ errArr.inOut }}</div>
+              {% endif %}
+            </td>
+          </tr>
+
+          <tr>
+            <th class="text-left p-2">区分<span class="text-red-500">*</span></th>
+            <td class="p-2">
+              {% for index, label in reasonArr %}
+                <input type="radio" name="reason" value="{{ index }}" id="{{ index }}" {% if dataArr.reason == index %}checked="checked"{% endif %}>
+                <label for="{{ index }}">{{ label }}</label>
+              {% endfor %}
+              {% if errArr.reason | length > 0 %}
+                <div class="text-red-600 text-sm mt-2">{{ errArr.reason }}</div>
+              {% endif %}
+            </td>
+          </tr>
+
+          <tr>
+            <th class="text-left p-2">商品名<span class="text-red-500">*</span></th>
+            <td class="p-2"><input type="text" name="product" value="{{ dataArr.product }}" class="w-full p-2 border border-gray-300 rounded">
+              {% if errArr.product | length > 0 %}
+                <div class="text-red-600 text-sm mt-2">{{ errArr.product }}</div>
+              {% endif %}
+            </td>
+          </tr>
+
+          <tr>
+            <th class="text-left p-2">個数<span class="text-red-500">*</span></th>
+            <td class="p-2"><input type="text" name="quantity" value="{{ dataArr.quantity }}" class="w-full p-2 border border-gray-300 rounded">
+              {% if errArr.quantity | length > 0 %}
+                <div class="text-red-600 text-sm mt-2">{{ errArr.quantity }}</div>
+              {% endif %}
+            </td>
+          </tr>
+
+          <tr>
+            <th class="text-left p-2">カテゴリー<span class="text-red-500">*</span></th>
+            <td class="p-2">
+              {% for index, label in ctgArr %}
+                <input type="radio" name="category" value="{{ index }}" id="{{ index }}" {% if dataArr.category == index %}checked="checked"{% endif %}>
+                <label for="{{ index }}">{{ label }}</label>
+              {% endfor %}
+              {% if errArr.category | length > 0 %}
+                <div class="text-red-600 text-sm mt-2">{{ errArr.category }}</div>
+              {% endif %}
+            </td>
+          </tr>
+
+          <tr>
+            <th class="text-left p-2">単価</th>
+            <td class="p-2"><input type="text" name="price" value="{{ dataArr.price }}" class="w-full p-2 border border-gray-300 rounded">
+              {% if errArr.price | length > 0 %}
+                <div class="text-red-600 text-sm mt-2">{{ errArr.price }}</div>
+              {% endif %}
+            </td>
+          </tr>
+
+          <tr>
+            <th class="text-left p-2">画像</th>
+            <td class="p-2"><input type="file" name="image" class="w-full p-2">
+              {% if errArr.image | length > 0 %}
+                <div class="text-red-600 text-sm mt-2">{{ errArr.image }}</div>
+              {% endif %}
+            </td>
+          </tr>
+
+          <tr>
+            <th class="text-left p-2">詳細情報</th>
+            <td class="p-2"><textarea name="detail" rows="5" cols="33" class="w-full p-2 border border-gray-300 rounded">{{ dataArr.detail }}</textarea>
+              {% if errArr.detail | length > 0 %}
+                <div class="text-red-600 text-sm mt-2">{{ errArr.detail }}</div>
+              {% endif %}
+            </td>
+          </tr>
+        </table>
+
+        <div class="text-center">
+          <input type="submit" name="confirm" value="登録確認" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300">
+        </div>
+      </form>
+
+      <div class="text-center mt-6">
+        <a href="../../../controller/administer/index.php" class="text-blue-500 hover:underline text-sm">トップページへ戻る</a>
+      </div>
+
+    </div>
+
     {% include "administer/footer.twig" %}
+    
   </body>
 </html>
-  

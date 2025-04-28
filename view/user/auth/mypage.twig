@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../../../common/css/style.css">
+    <title>会員登録完了</title>
+  </head>
+  <body class="bg-gray-50">
+    {% include "user/header.twig" %}
+    <div class="container mx-auto px-4 py-8">
+      <h3 class="text-xl font-semibold mb-6">マイページ</h3>
+      <form method="post" action="edit.php" class="p-6">
+        <table>
+          <tr>
+            <th class="py-2 px-4 font-semibold text-gray-700">お名前(氏名)</th>
+            <td class="py-2 px-4 text-gray-600">{{memberData.family_name}} {{memberData.first_name}}</td>
+          </tr>
+          <tr class>
+            <th class="py-2 px-4 font-semibold text-gray-700">お名前(かな)</th>
+            <td class="py-2 px-4 text-gray-600">{{memberData.family_name_kana}} {{memberData.first_name_kana}}</td>
+          </tr>
+          <tr>
+            <th class="py-2 px-4 font-semibold text-gray-700">生年月日</th>
+            <td class="py-2 px-4 text-gray-600">{{memberData.year}}年 {{memberData.month}}月 {{memberData.day}}日</td>
+          </tr>
+          <tr>
+            <th class="py-2 px-4 font-semibold text-gray-700">郵便番号</th>
+            <td class="py-2 px-4 text-gray-600">{{memberData.zip1}} - {{memberData.zip2}}</td>
+          </tr>
+          <tr>
+            <th class="py-2 px-4 font-semibold text-gray-700">住所</th>
+            <td class="py-2 px-4 text-gray-600">{{memberData.address}}</td>
+          </tr>
+          <tr>
+            <th class="py-2 px-4 font-semibold text-gray-700">メールアドレス</th>
+            <td class="py-2 px-4 text-gray-600">{{memberData.email}}</td>
+          </tr>
+          <tr>
+            <th class="py-2 px-4 font-semibold text-gray-700">電話番号</th>
+            <td class="py-2 px-4 text-gray-600">{{memberData.tel1}} - {{memberData.tel2}} - {{memberData.tel3}}</td>
+          </tr>
+        </table>
+        <div class="mt-6">
+          <input type="submit" name="edit" value="編集" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 cursor-pointer">
+          <input type="submit" name="withdrawal" value="退会" class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 cursor-pointer">
+        </div>
+        {% for key, value in memberData %}
+          {% if value is iterable %}
+            {% for v in value %}
+              <input type="hidden" name="{{key}}[]" value="{{v}}">
+            {% endfor %}
+          {% else %}
+            <input type="hidden" name="{{key}}" value="{{value}}">
+          {% endif %}
+        {% endfor %}
+      </form>
+      <div class="mt-6">
+        <a href="http://localhost/ibarakikensan/controller/item/list.php" class="text-blue-500 hover:underline text-sm">トップページへ戻る</a>
+      </div>
+    </div>
+  </body>
+</html>

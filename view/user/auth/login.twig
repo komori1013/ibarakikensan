@@ -2,33 +2,61 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="../../../common/css/style.css">
-    <title></title>
+    <title>ログインページ</title>
   </head>
-  <body>
+  <body class="bg-gray-50 flex flex-col min-h-screen">
+
+    <!-- ヘッダー -->
     {% include "user/header.twig" %}
-    <h3>ログインページ</h3>
-    <form method="post" action="../../../controller/user/auth/authentication.php">
-      <table>
-        <tr>
-          <th>ログインID<span class="red">*</span></th>
-          <td><input type="text" name="account" value="{{dataArr.account}}">
-            {% if errArr.account | length > 0 %}<br><span class="red">{{errArr.account}}</span>{% endif %}
-          </td>
-        </tr>
-        <tr>
-          <th>パスワード<span class="red">*</span></th>
-          <td><input type="text" name="password" value="{{dataArr.password}}">
-            {% if errArr.password | length > 0 %}<br><span class="red">{{errArr.password}}</span>{% endif %}
-            {% if errArr.dbAccountPassword | length > 0 %}<br><span class="red">{{errArr.dbAccountPassword}}</span>{% endif %}
-          </td>
-        </tr>
-      </table>
-      <input type="submit" name="login" value="ログイン">
-      </br><a href="http://localhost/ibarakikensan/controller/user/auth/regist.php">会員登録をする</a>
-      </br><a href="http://localhost/ibarakikensan/controller/item/list.php">トップページへ戻る</a>
-    </form>
+
+    <!-- メインコンテンツ -->
+    <div class="flex-grow flex justify-center items-center">
+      <div class="p-8 w-full max-w-md">
+        <h3 class="text-xl font-semibold text-gray-800 mb-6 text-center">ログインページ</h3>
+
+        <form method="post" action="../../../controller/user/auth/authentication.php">
+          <div class="mb-4">
+            <label for="account" class="block text-gray-700 font-medium mb-2">ログインID<span class="text-red-500">*</span></label>
+            <input type="text" name="account" value="{{dataArr.account}}" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="ログインID">
+            {% if errArr.account | length > 0 %}
+              <p class="text-red-500 text-sm mt-2">{{errArr.account}}</p>
+            {% endif %}
+          </div>
+
+          <div class="mb-6">
+            <label for="password" class="block text-gray-700 font-medium mb-2">パスワード<span class="text-red-500">*</span></label>
+            <input type="password" name="password" value="{{dataArr.password}}" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="パスワード">
+            {% if errArr.password | length > 0 %}
+              <p class="text-red-500 text-sm mt-2">{{errArr.password}}</p>
+            {% endif %}
+            {% if errArr.dbAccountPassword | length > 0 %}
+              <p class="text-red-500 text-sm mt-2">{{errArr.dbAccountPassword}}</p>
+            {% endif %}
+          </div>
+
+          <div class="mb-6">
+            <input type="submit" name="login" value="ログイン" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+          </div>
+        </form>
+
+        <div class="text-center">
+          <p class="text-sm text-gray-600">
+            <a href="/ibarakikensan/controller/user/auth/forgotPassword.php" class="text-blue-500 hover:underline">パスワードを忘れた方はこちら</a>
+          </p>          
+          <p class="text-sm text-gray-600">
+            <a href="http://localhost/ibarakikensan/controller/user/auth/regist.php" class="text-blue-500 hover:underline">会員登録</a>
+          </p>
+          <p class="text-sm text-gray-600">
+            <a href="http://localhost/ibarakikensan/controller/item/list.php" class="text-blue-500 hover:underline ">トップページへ戻る</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- フッター -->
     {% include "user/footer.twig" %}
+
   </body>
 </html>
-  

@@ -8,7 +8,7 @@ class Bootstrap {
   const DB_USER = "ibarakikensan_user";
   const DB_PASS = "ibarakikensan_pass";
   const DB_NAME = "ibarakikensan_db";
-  const DB_PORT = 13306;
+  const DB_PORT = 3306;
   const DB_TYPE = "mysql";
 
   const APP_DIR = "c:/xampp/htdocs/";

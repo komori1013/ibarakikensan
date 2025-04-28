@@ -20,7 +20,7 @@ if (isset($_POST["member_id"]) === true) {
     $res = $db->update($table, $insData, $where, $arrVal);
   
     if ($res) {
-      $template = "administer/auth/withdrawalComplete.twig";
+      $template = "administer/user/withdrawalComplete.twig";
       $context = [];
     } else {
       echo "更新に失敗しました";

@@ -1,63 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.4/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../../common/css/style.css">
-    <title></title>
+    <title>売上集計ページ</title>
   </head>
-  <body>
+  <body class="bg-gray-50 text-gray-700">
+
     {% include "administer/header.twig" %}
-    <h3>売上集計ページ</h3>
 
-    <form method="POST">
-      <label>開始日: <input type="date" name="start_date" value="{{ start_date }}"></label>
-      <label>終了日: <input type="date" name="end_date" value="{{ end_date }}"></label>
-      <button type="submit">検索</button>
-    </form>
+    <div class="container mx-auto p-6">
+      <h3 class="text-xl font-semibold text-center mb-6">売上集計ページ</h3>
 
-<form method="POST" action="../../../controller/administer/item/exportCsv.php">
-  <input type="hidden" name="productArr" value='{{ productArr|json_encode|e }}'>
-  CSV:<button type="submit">出力</button>
-</form>
-</br>
+      <form method="POST" class="mb-6 flex justify-center space-x-4">
+        <label class="text-md">開始日: <input type="date" name="start_date" value="{{ start_date }}" class="p-2 border rounded"></label>
+        <label class="text-md">終了日: <input type="date" name="end_date" value="{{ end_date }}" class="p-2 border rounded"></label>
+        <button type="submit" class="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 py-2 px-4">検索</button>
+      </form>
 
-{% if productArr %}
-  <table border="1" cellpadding="5" cellspacing="0">
-    <thead>
-      <tr>
-        <th>日時</th>
-        <th>顧客番号</th>
-        <th>種別</th>
-        <th>理由</th>
-        <th>商品名</th>
-        <th>数量</th>
-        <th>単価</th>
-        <th>合計</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for row in productArr %}
-        <tr>
-          <td>{{ row.created_at }}</td>
-          <td>{{ row.customer_no }}</td>
-          <td>{{ row.change_type }}</td>
-          <td>{{ row.reason }}</td>
-          <td>{{ row.product_name }}</td>
-          <td>{{ row.quantity }}</td>
-          <td>{{ row.price| number_format(0, '.', ',') }}</td>
-          <td>{{ row.subtotal|number_format(0, ".", ",") }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      <form method="POST" action="../../../controller/administer/item/exportCsv.php" class="mb-6 flex justify-center">
+        <input type="hidden" name="productArr" value='{{ productArr|json_encode|e }}'>
+        <button type="submit" class="p-2 bg-green-500 text-white rounded hover:bg-green-600 py-2 px-4">CSV出力</button>
+      </form>
 
-  <p><strong>売上合計個数：</strong>{{ totalQuantity }}個</p>
-  <p><strong>売上合計金額：</strong>{{ totalAmount | number_format(0, '.', ',') }} 円</p>
+      {% if productArr %}
+        <div class="overflow-x-auto">
+          <table class="min-w-full table-auto bg-white shadow-md rounded-lg">
+            <thead class="bg-gray-200">
+              <tr>
+                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">日時</th>
+                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">顧客番号</th>
+                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">種別</th>
+                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">理由</th>
+                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">商品名</th>
+                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">数量</th>
+                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">単価</th>
+                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">合計</th>
+              </tr>
+            </thead>
+            <tbody class="text-sm text-gray-600">
+              {% for row in productArr %}
+                <tr class="border-b">
+                  <td class="py-3 px-4">{{ row.created_at }}</td>
+                  <td class="py-3 px-4">{{ row.customer_no }}</td>
+                  <td class="py-3 px-4">{{ row.change_type }}</td>
+                  <td class="py-3 px-4">{{ row.reason }}</td>
+                  <td class="py-3 px-4">{{ row.product_name }}</td>
+                  <td class="py-3 px-4">{{ row.quantity }}</td>
+                  <td class="py-3 px-4">{{ row.price | number_format(0, '.', ',') }}</td>
+                  <td class="py-3 px-4">{{ row.subtotal | number_format(0, ".", ",") }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
 
-{% else %}
-  <p>該当するデータがありません。</p>
-{% endif %}
-   <br><a href="../../../controller/administer/index.php">トップページへ戻る</a>
+        <div class="mt-6 text-right">
+          <p class="text-lg font-semibold">売上合計個数：{{ totalQuantity }} 個</p>
+          <p class="text-lg font-semibold">売上合計金額：{{ totalAmount | number_format(0, '.', ',') }} 円</p>
+        </div>
+
+      {% else %}
+        <div class="text-center text-red-600 mt-6">
+          <p>該当するデータがありません。</p>
+        </div>
+      {% endif %}
+
+      <div class="mt-6 text-center">
+        <a href="../../../controller/administer/index.php" class="text-blue-500 hover:underline text-sm">トップページへ戻る</a>
+      </div>
+    </div>
+
     {% include "administer/footer.twig" %}
-      </body>
+    
+  </body>
 </html>

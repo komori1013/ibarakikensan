@@ -2,65 +2,73 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.4/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../../common/css/style.css">
-    <title></title>
+    <title>確認ページ</title>
   </head>
-  <body>
+  <body class="bg-gray-50">
     {% include "administer/header.twig" %}
-    <div>{{message}}</div>
-    <form method="post" action="confirm.php">
-      <table>
-        <tr>
-          <th>入出庫</th>
-          <td>
-            {{inOutArr[dataArr.inOut]}}<br>
-          </td>
-        </tr>
-        <tr>
-          <th>区分</th>
-          <td>
-            {{reasonArr[dataArr.reason]}}<br>
-          </td>
-        </tr>
-        <tr>
-          <th>カテゴリー</th>
-          <td>
-            {{ctgArr[dataArr.category]}}<br>
-          </td>
-        </tr>
-        <tr>
-          <th>商品名</th>
-          <td>{{dataArr.product}}</td>
-        </tr>
-        <tr>
-          <th>価格</th>
-          <td>{{dataArr.price}}</td>
-        </tr>
-        <tr>
-          <th>数量</th>
-          <td>{{dataArr.quantity}}</td>
-        </tr>
-        <tr>
-          <th>商品明細</th>
-          <td>{{dataArr.detail}}</td>
-        </tr>
-        <tr>
-          <th>画像</th>
-        </tr>
-      </table>
-      <input type="submit" name="confirm" value="戻る">
-      <input type="submit" name="confirm" value="登録完了">
-      {% for key, value in dataArr %}
-        {% if value is iterable %}
-          {% for v in value %}
-            <input type ="hidden" name="{{key}}[]" value="{{v}}">
-          {% endfor %}
-        {% else %}
-          <input type="hidden" name="{{key}}" value="{{value}}">
-        {% endif %}
-      {% endfor %}
-    </form>
+
+    <div class="max-w-4xl mx-auto mt-12 p-6">
+      <h3 class="text-xl font-semibold text-center text-gray-800">確認ページ</h3>
+
+      <div class="mt-6 text-gray-700">
+        <p>{{ message }}</p>
+      </div>
+
+      <form method="post" action="confirm.php" class="mt-8">
+        <table class="min-w-full table-auto border-collapse">
+          <tr>
+            <th class="px-4 py-2 text-left text-gray-600">入出庫</th>
+            <td class="px-4 py-2">{{ inOutArr[dataArr.inOut] }}</td>
+          </tr>
+          <tr>
+            <th class="px-4 py-2 text-left text-gray-600">区分</th>
+            <td class="px-4 py-2">{{ reasonArr[dataArr.reason] }}</td>
+          </tr>
+          <tr>
+            <th class="px-4 py-2 text-left text-gray-600">カテゴリー</th>
+            <td class="px-4 py-2">{{ ctgArr[dataArr.category] }}</td>
+          </tr>
+          <tr>
+            <th class="px-4 py-2 text-left text-gray-600">商品名</th>
+            <td class="px-4 py-2">{{ dataArr.product }}</td>
+          </tr>
+          <tr>
+            <th class="px-4 py-2 text-left text-gray-600">価格</th>
+            <td class="px-4 py-2">{{ dataArr.price }}</td>
+          </tr>
+          <tr>
+            <th class="px-4 py-2 text-left text-gray-600">数量</th>
+            <td class="px-4 py-2">{{ dataArr.quantity }}</td>
+          </tr>
+          <tr>
+            <th class="px-4 py-2 text-left text-gray-600">商品明細</th>
+            <td class="px-4 py-2">{{ dataArr.detail }}</td>
+          </tr>
+          <tr>
+            <th class="px-4 py-2 text-left text-gray-600">画像</th>
+            <td class="px-4 py-2">{{ dataArr.image }}</td>
+          </tr>
+        </table>
+
+        <div class="mt-6 flex justify-between">
+          <input type="submit" name="confirm" value="戻る" class="bg-gray-300 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-400 cursor-pointer">
+          <input type="submit" name="confirm" value="登録完了" class="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 cursor-pointer">
+        </div>
+
+        {% for key, value in dataArr %}
+          {% if value is iterable %}
+            {% for v in value %}
+              <input type="hidden" name="{{ key }}[]" value="{{ v }}">
+            {% endfor %}
+          {% else %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+          {% endif %}
+        {% endfor %}
+      </form>
+    </div>
+
     {% include "administer/footer.twig" %}
   </body>
 </html>
-

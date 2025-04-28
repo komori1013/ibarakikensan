@@ -25,6 +25,8 @@ CREATE TABLE member (
   delete_flg TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  reset_token VARCHAR(255) NOT NULL,
+  token_expire DATETIME NULL,
   PRIMARY KEY (member_id)
 );
 
@@ -54,7 +56,7 @@ FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
 
 CREATE TABLE products (
   product_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  product_name VARCHAR(100) NOT NULL,
+  product_name VARCHAR(100) NOT NULL UNIQUE,
   detail TEXT NULL,
   price DECIMAL(10,2) UNSIGNED NOT NULL,
   image VARCHAR(100) NOT NULL,
@@ -65,8 +67,6 @@ CREATE TABLE products (
   PRIMARY KEY (product_id),
   INDEX crt_idx (ctg_id),
 );
-
-ALTER TABLE products ADD UNIQUE (product_name);
 
 CREATE TABLE inventory_movements (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,  
@@ -84,18 +84,17 @@ CREATE TABLE cart (
   customer_no VARCHAR(100) NOT NULL,
   item_id INT UNSIGNED NOT NULL,
   num TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+  totalprice DECIMAL(10, 2) UNSIGNED NOT NULL DEFAULT 0.00
   delete_flg TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (crt_id),
   INDEX crt_idx (customer_no, delete_flg)
 );
-ALTER TABLE cart CHANGE COLUMN price totalprice DECIMAL(10, 2) UNSIGNED NOT NULL DEFAULT 0.00;
 
 CREATE TABLE category (
   ctg_id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
   category_name VARCHAR(100) NOT NULL,
   PRIMARY KEY (ctg_id)
 );
-
 
 CREATE TABLE administer (
   admin_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -104,4 +103,18 @@ CREATE TABLE administer (
   PRIMARY KEY (admin_id)
 );
 
-INSERT INTO administer(admin_account, admin_password) VALUES ("takahirokomori","takahiro0123");
+CREATE TABLE administer (
+  admin_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  admin_account VARCHAR(255) NOT NULL,
+  admin_password VARCHAR(255) NOT NULL,
+  PRIMARY KEY (admin_id)
+);
+
+CREATE TABLE password_resets (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  reset_token VARCHAR(255) NOT NULL,
+  token_expire DATETIME NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+);

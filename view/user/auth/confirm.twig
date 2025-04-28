@@ -1,59 +1,61 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset = "utf-8">
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="../../../common/css/style.css">
-    <title></title>
+    <title>登録確認ページ</title>
   </head>
-  <body>
+  <body class="bg-gray-50">
     {% include "user/header.twig" %}
-    <h3>登録確認ページ</h3>
-    <form method="post" action="confirm.php">
-      <table>
-        <tr>
-          <th>お名前(氏名)</th>
-          <td>{{dataArr.family_name}} {{dataArr.first_name}}</td>
-        </tr>
-        <tr>
-          <th>お名前(かな)</th>
-          <td>{{dataArr.family_name_kana}} {{dataArr.first_name_kana}}</td>
-        </tr>
-        <tr>
-          <th>生年月日</th>
-          <td>{{dataArr.year}}年 {{dataArr.month}}月 {{dataArr.day}}日</td>
-        </tr>
-        <tr>
-          <th>郵便番号</th>
-          <td>{{dataArr.zip1}} - {{dataArr.zip2}}</td>
-        </tr>
-        <tr>
-          <th>住所</th>
-          <td>{{dataArr.address}}</td>
-        </tr>
-        <tr>
-          <th>メールアドレス</th>
-          <td>{{dataArr.email}}</td>
-        </tr>
-        <tr>
-          <th>電話番号</th>
-          <td>{{dataArr.tel1}} - {{dataArr.tel2}} - {{dataArr.tel3}}</td>
-        </tr>
-      </table>
-      <div>
-        <input type="submit" name="back" value="戻る">
-        <input type="submit" name="complete" value="登録完了">
+    <div class="container mx-auto px-4 py-8">
+      <h3 class="text-xl font-semibold text-gray-800 mb-6">登録確認ページ</h3>
+      <form method="post" action="confirm.php" class="p-6">
+        <table>
+          <tr>
+            <th class="py-2 px-4 font-semibold text-gray-700">お名前(氏名)</th>
+            <td class="py-2 px-4 text-gray-600">{{dataArr.family_name}} {{dataArr.first_name}}</td>
+          </tr>
+          <tr class>
+            <th class="py-2 px-4 font-semibold text-gray-700">お名前(かな)</th>
+            <td class="py-2 px-4 text-gray-600">{{dataArr.family_name_kana}} {{dataArr.first_name_kana}}</td>
+          </tr>
+          <tr>
+            <th class="py-2 px-4 font-semibold text-gray-700">生年月日</th>
+            <td class="py-2 px-4 text-gray-600">{{dataArr.year}}年 {{dataArr.month}}月 {{dataArr.day}}日</td>
+          </tr>
+          <tr>
+            <th class="py-2 px-4 font-semibold text-gray-700">郵便番号</th>
+            <td class="py-2 px-4 text-gray-600">{{dataArr.zip1}} - {{dataArr.zip2}}</td>
+          </tr>
+          <tr>
+            <th class="py-2 px-4 font-semibold text-gray-700">住所</th>
+            <td class="py-2 px-4 text-gray-600">{{dataArr.address}}</td>
+          </tr>
+          <tr>
+            <th class="py-2 px-4 font-semibold text-gray-700">メールアドレス</th>
+            <td class="py-2 px-4 text-gray-600">{{dataArr.email}}</td>
+          </tr>
+          <tr>
+            <th class="py-2 px-4 font-semibold text-gray-700">電話番号</th>
+            <td class="py-2 px-4 text-gray-600">{{dataArr.tel1}} - {{dataArr.tel2}} - {{dataArr.tel3}}</td>
+          </tr>
+        </table>
+        <div class="mt-6">
+          <input type="submit" name="back" value="戻る" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 cursor-pointer">
+          <input type="submit" name="complete" value="登録完了" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 cursor-pointer">
+        </div>
         {% for key, value in dataArr %}
           {% if value is iterable %}
             {% for v in value %}
-              <input type ="hidden" name="{{key}}[]" value="{{v}}">
+              <input type="hidden" name="{{key}}[]" value="{{v}}">
             {% endfor %}
           {% else %}
             <input type="hidden" name="{{key}}" value="{{value}}">
           {% endif %}
         {% endfor %}
-      </div>
-    </form>
+      </form>
+    </div>
     {% include "user/footer.twig" %}
   </body>
 </html>
-

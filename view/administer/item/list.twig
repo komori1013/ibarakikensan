@@ -1,55 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
     <meta charset="utf-8"/>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.4/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../../common/css/style.css">
     <title>在庫一覧</title>
   </head>
-  <body>
+  <body class="bg-gray-50 text-gray-700">
+
     {% include "administer/header.twig" %}
-    <h3>在庫一覧ページ</h3>
 
-    {% if productArr is not empty %}
-      <table border="1" cellpadding="5" cellspacing="0">
-        <thead>
-          <tr>
-            <th>商品名</th>
-            <th>在庫数</th>
-            <th>価格</th>
-            <th>画像ファイル名</th>
-            <th>詳細</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for value in productArr %}
-            <tr>
-              <td>{{ value.product_name }}</td>
-              <td>{{ value.stock_quantity }} 個</td>
-              <td>&yen;{{ value.price|number_format(0, ".", ",") }}</td>
-              <td>
-                {% if value.image is not empty %}
-                  {{ value.image }}
-                {% else %}
-                  （なし）
-                {% endif %}
-              </td>
-              <td>
-                {% if value.detail is not empty %}
-                  {{ value.detail }}
-                {% else %}
-                  （説明なし）
-                {% endif %}
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      <p><strong>商品数合計：</strong>{{ productArr | length }} 件</p>
-    {% else %}
-      <p>表示できる在庫データがありません。</p>
-    {% endif %}
+    <div class="container mx-auto p-6">
+      <h3 class="text-xl font-semibold text-center mb-6">在庫一覧ページ</h3>
 
-    <br><a href="../../../controller/administer/index.php">トップページへ戻る</a>
+      {% if productArr is not empty %}
+        <div class="overflow-x-auto">
+          <table class="min-w-full table-auto bg-white shadow-md rounded-lg">
+            <thead class="bg-gray-200">
+              <tr>
+                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">商品名</th>
+                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">在庫数</th>
+                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">価格</th>
+                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">画像ファイル名</th>
+                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-700">詳細</th>
+              </tr>
+            </thead>
+            <tbody class="text-sm text-gray-600">
+              {% for value in productArr %}
+                <tr class="border-b">
+                  <td class="py-3 px-4">{{ value.product_name }}</td>
+                  <td class="py-3 px-4">{{ value.stock_quantity }} 個</td>
+                  <td class="py-3 px-4">¥{{ value.price | number_format(0, ".", ",") }}</td>
+                  <td class="py-3 px-4">
+                    {% if value.image is not empty %}
+                      {{ value.image }}
+                    {% else %}
+                      （なし）
+                    {% endif %}
+                  </td>
+                  <td class="py-3 px-4">
+                    {% if value.detail is not empty %}
+                      {{ value.detail }}
+                    {% else %}
+                      （説明なし）
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="mt-4 text-right">
+          <p class="text-lg font-semibold">商品数合計：{{ productArr | length }} 件</p>
+        </div>
+      {% else %}
+        <div class="text-center text-red-600 mt-6">
+          <p>表示できる在庫データがありません。</p>
+        </div>
+      {% endif %}
+
+      <div class="mt-6 text-center">
+        <a href="../../../controller/administer/index.php" class="text-blue-500 hover:underline text-sm">トップページへ戻る</a>
+      </div>
+    </div>
+
     {% include "administer/footer.twig" %}
+
   </body>
 </html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../../../common/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{{constant('ibarakikensan\\common\\Bootstrap::APP_URL')}}common/js/postcode.js"></script>
+    <title>登録確認ページ</title>
+  </head>
+  <body class="bg-gray-50">
+    {% include "user/header.twig" %}
+    <div class="container mx-auto px-4 py-8">
+      <h3 class="text-xl font-semibold text-gray-800 mb-6">登録情報編集ページ</h3>
+      <input type="hidden" name="entry_url" id="entry_url" value="{{constant("ibarakikensan\\common\\Bootstrap::ENTRY_URL")}}">
+      <form method="post" action="edit.php" class="p-6">
+        <table>
+          <tr>
+            <th class="py-2 px-4 font-semibold text-gray-700">お名前(氏名)</th>
+            <td class="py-2 px-4 text-gray-600">{{dataArr.family_name}} {{dataArr.first_name}}</td>
+          </tr>
+          <tr class>
+            <th class="py-2 px-4 font-semibold text-gray-700">お名前(かな)</th>
+            <td class="py-2 px-4 text-gray-600">{{dataArr.family_name_kana}} {{dataArr.first_name_kana}}</td>
+          </tr>
+          <tr>
+            <th class="py-2 px-4 font-semibold text-gray-700">生年月日</th>
+            <td class="py-2 px-4 text-gray-600">{{dataArr.year}}年 {{dataArr.month}}月 {{dataArr.day}}日</td>
+          </tr>
+           <tr>
+            <th class="text-left px-4 py-2">郵便番号<span class="text-red-500">*</span></th>
+            <td class="px-4 py-2">
+              <input type="text" name="zip1" value="{{dataArr.zip1}}" id="zip1" size="3" maxlength="3" class="px-4 py-2 border border-gray-300 rounded">-
+              <input type="text" name="zip2" value="{{dataArr.zip2}}" id="zip2" size="4" maxlength="4" class="px-4 py-2 border border-gray-300 rounded">
+              <input type="button" name="address_search" value="〒から住所を入力" id="address_search" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+              {% if errArr.zip1 | length > 0 %}<br><span class="text-red-500">{{errArr.zip1}}</span>{% endif %}
+              {% if errArr.zip2 | length > 0 %}<br><span class="text-red-500">{{errArr.zip2}}</span>{% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th class="text-left px-4 py-2">住所<span class="text-red-500">*</span></th>
+            <td class="px-4 py-2">
+              <input type="text" name="address" value="{{dataArr.address}}" id="address" size="40" class="px-4 py-2 border border-gray-300 rounded">
+              {% if errArr.address | length > 0 %}<br><span class="text-red-500">{{errArr.address}}</span>{% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th class="text-left px-4 py-2">メールアドレス<span class="text-red-500">*</span></th>
+            <td class="px-4 py-2">
+              <input type="text" name="email" value="{{dataArr.email}}" size="40" class="px-4 py-2 border border-gray-300 rounded">
+              {% if errArr.email | length > 0 %}<br><span class="text-red-500">{{errArr.email}}</span>{% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th class="text-left px-4 py-2">電話番号<span class="text-red-500">*</span></th>
+            <td class="px-4 py-2">
+              <input type="text" name="tel1" value="{{dataArr.tel1}}" size="6" maxlength="6" class="px-4 py-2 border border-gray-300 rounded">-
+              <input type="text" name="tel2" value="{{dataArr.tel2}}" size="6" maxlength="6" class="px-4 py-2 border border-gray-300 rounded">-
+              <input type="text" name="tel3" value="{{dataArr.tel3}}" size="6" maxlength="6" class="px-4 py-2 border border-gray-300 rounded">
+              {% if errArr.tel1 | length > 0 %}<br><span class="text-red-500">{{errArr.tel1}}</span>{% endif %}
+              {% if errArr.tel2 | length > 0 %}<br><span class="text-red-500">{{errArr.tel2}}</span>{% endif %}
+              {% if errArr.tel3 | length > 0 %}<br><span class="text-red-500">{{errArr.tel3}}</span>{% endif %}
+            </td>
+          </tr>
+        </table>
+        <div class="mt-6">
+          <input type="submit" name="complete" value="編集完了" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 cursor-pointer">
+        </div>
+          {% for key, value in dataArr %}
+            {% if key != 'zip1' and key != 'zip2' and key != 'address' and key != 'email' and key != 'tel1' and key != 'tel2' and key != 'tel3' %}
+              {% if value is iterable %}
+                {% for v in value %}
+                  <input type="hidden" name="{{key}}[]" value="{{v}}">
+                {% endfor %}
+              {% else %}
+                <input type="hidden" name="{{key}}" value="{{value}}">
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+      </form>
+      <div class="mt-6">
+        <a href="http://localhost/ibarakikensan/controller/item/list.php" class="text-blue-500 hover:underline text-sm">トップページへ戻る</a>
+      </div>
+    </div>
+    {% include "user/footer.twig" %}
+  </body>
+</html>

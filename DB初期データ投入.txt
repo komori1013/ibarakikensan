@@ -1,3 +1,5 @@
+INSERT INTO administer(admin_account, admin_password) VALUES ("takahirokomori","takahiro0123");
+
 INSERT INTO category(category_name) VALUES ("食品");
 INSERT INTO category(category_name) VALUES ("農産物");
 INSERT INTO category(category_name) VALUES ("飲料");
@@ -9,7 +11,6 @@ INSERT INTO products(product_name, detail, price, image, stock_quantity, ctg_id)
 VALUES("芋堅干（いもけんぴ）","カリカリ食感と上品な甘さの鹿吉謹製 芋けんぴ
 繊維のきめが細かいシルクスイートを芋けんぴに仕上げました。
 シルクスイートの品質の高さを感じて頂くよう砂糖を最小限に抑え上品な味に仕上げております。",3000,"kenpi_img_900x.jpg",1,1);
-
 
 INSERT INTO products(product_name, detail, price, image, stock_quantity, ctg_id)
 VALUES("干し芋","しっとりなめらかな食感！黄金色の干し芋

@@ -2,28 +2,23 @@
   <head>
     <meta charset="utf-8"/>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="{{constant("ibarakikensan\\common\\Bootstrap::APP_URL")}}common/js/shopping.js"></script>
     <link rel="stylesheet" type="text/css" href="../../../common/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{{constant("ibarakikensan\\common\\Bootstrap::APP_URL")}}common/js/shopping.js"></script>
     <title>商品詳細ページ</title>
   </head>
-  <body class="bg-gray-50">
+  <body class="bg-gray-50 m-0">
 
     <!-- ヘッダー -->
     {% include "user/header.twig" %}
 
-    <!-- ヘッダー画像 -->
-    <div class="flex justify-center items-center my-6">
-       <img src="../../image/site_signboard.png" alt="ヘッダー画像" class="w-1/2 max-h-52 object-contain">
-    </div>
-
     <!-- レイアウト全体（サイドバーとメインコンテンツを横並びにするためのコンテナ） -->
-    <div class="flex mt-6">
+    <div class="flex mt-6 mt-0">
 
       <!-- サイドバー -->
-      <div class="w-64 bg-gray-200 text-gray-700 p-4">
+      <div class="w-64 text-gray-700 p-4 m-0">
         <div id="category">
-          <h2 class="text-md font-semibold mb-4 text-gray-600">カテゴリー</h2>
+          <h2 class="text-md font-semibold mb-4 text-gray-700">カテゴリー</h2>
           <ul>
             <li><a href="{{constant("ibarakikensan\\common\\Bootstrap::ENTRY_URL")}}controller/item/list.php" class="block py-2 px-3 hover:bg-gray-300 text-sm">全て</a></li>
             {% for value in cateArr %}
@@ -34,7 +29,7 @@
           <!-- 検索フォーム -->
           <form action="/ibarakikensan/controller/item/list.php" method="GET" class="mt-4">
             <input type="text" name="searchKeyword" value="" class="px-3 py-2 w-full mb-4 border border-gray-300 rounded text-sm text-gray-700" placeholder="検索キーワード">
-            <input type="submit" value="検索" class="w-full bg-blue-100 text-blue-600 py-2 rounded hover:bg-blue-200 text-sm">
+            <input type="submit" value="検索" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm">
           </form>
         </div>
       </div>
@@ -43,7 +38,7 @@
       <div id="item_detail" class="flex-1 p-6 overflow-y-auto">
 
         <!-- 商品画像と商品情報を並べる -->
- <h3 class="text-xl font-semibold mb-4 text-gray-800">商品詳細ページ</h3>
+ <h3 class="text-xl font-semibold mb-4 text-gray-700">商品詳細ページ</h3>
         <div class="flex">
           <!-- 左側 商品画像 -->
           <div class="w-1/3 pr-6">
@@ -55,8 +50,8 @@
 
           <!-- 右側 商品情報 -->
           <div class="w-2/3">
-            <h3 class="text-xl font-semibold mb-4 text-gray-800">{{ productData.product_name }}</h3>
-            <div class="text-sm text-gray-600 mb-4">
+            <h3 class="text-xl font-semibold mb-4 text-gray-700">{{ productData.product_name }}</h3>
+            <div class="text-sm text-gray-700 mb-4">
               <p><strong>詳細:</strong> {{ productData.detail }}</p>
               </br>
               <p><strong>価格:</strong> &yen;{{ productData.price|number_format(0, ".", ",") }}</p>
@@ -82,14 +77,14 @@
               <input type="hidden" name="user_id" value="{{ userData.user_id }}" id="user_id">
              <input type="hidden" name="product_id" value="{{ productData.product_id }}" id="product_id">
               <input type="hidden" name="price" value="{{ productData.price }}" id="price">
-              <input type="button" name="cart_in" value="ショッピングカートへ入れる" id="cart_in" class="w-auto bg-blue-500 text-white py-1 px-4 rounded hover:bg-blue-600 text-sm">
+              <input type="button" name="cart_in" value="ショッピングカートへ入れる" id="cart_in" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 text-sm">
             </div>
           </div>
         </div>
+            <a href="http://localhost/ibarakikensan/controller/item/list.php" class="block mt-6 text-blue-500 hover:underline text-sm">トップページへ戻る</a>
       </div>
     </div>
 
-    <br><a href="http://localhost/ibarakikensan/controller/item/list.php" class="text-blue-500 hover:underline">トップページへ戻る</a>
 
     {% include "user/footer.twig" %}
   </body>
