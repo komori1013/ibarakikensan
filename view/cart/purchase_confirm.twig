@@ -1,0 +1,131 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../../common/css/style.css">
+    <title>購入確認ページ</title>
+  </head>
+
+  <body class="bg-gray-50">
+    {% include "user/header.twig" %}
+    
+    <div class="container mx-auto px-4 py-6">
+      <h3 class="text-xl font-semibold text-gray-700 mb-6">購入確認ページ</h3>
+
+      {% if productErrArr | length > 0 %}
+        <div class="bg-red-500 text-white p-4 rounded-lg mb-4">
+          <h4 class="font-semibold">エラー</h4>
+          <div>
+            {% for value in productErrArr %}
+              <ul class="list-disc pl-5">
+                <li class="text-sm">{{ value.product_name }}: {{ value.error }}</li>
+              </ul>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if creditErrArr | length > 0 %}
+        <div class="bg-red-500 text-white p-4 rounded-lg mb-4">
+          <h4 class="font-semibold">エラー</h4>
+          <div>
+            {% for value in creditErrArr %}
+              <ul class="list-disc pl-5">
+                <li class="text-sm">{{ value }}</li>
+              </ul>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if dataArr | length == 0 %}
+        <p class="text-gray-500">購入対象の商品がありません。</p>
+      {% else %}
+        <!-- 購入者情報 -->
+<div class="bg-white p-6 rounded-lg shadow-md mb-6">
+    <h4 class="text-lg font-semibold text-gray-700 mb-4">購入者情報</h4>
+    <ul class="space-y-2 text-gray-700 text-md">
+        <li>氏名：{{ customer.family_name }} {{ customer.first_name }}</li>
+        <li>住所：{{ customer.address }}</li>
+        <li>電話番号：{{ customer.tel1 }}-{{ customer.tel2 }}-{{ customer.tel3 }}</li>
+        <li>メールアドレス：{{ customer.email }}</li>
+    </ul>
+</div>
+
+        <!-- 購入内容詳細 -->
+        <div id="item_details" class="bg-white p-6 rounded-lg shadow-md mb-6">
+          <h4 class="text-lg font-semibold text-gray-700 mb-4">購入内容</h4>
+          <div class="space-y-2 text-gray-700 text-md">
+            {% set total_quantity = 0 %}
+            {% set total_price = 0 %}
+            {% for item in dataArr %}
+              <div class="flex justify-between items-center">
+                <div>
+                  <ul>
+                    <li class="text-md font-semibold text-gray-700">{{ item.product_name }}</li>
+                    <li class="text-gray-700">数量: {{ item.num }}個</li>
+                    <li class="text-gray-700">価格: &yen;{{ item.price|number_format(0, ".", ",") }}</li>
+                  </ul>
+                </div>
+                <div class="text-gray-700">
+                  &yen;{{ (item.price * item.num)|number_format(0, ".", ",") }}
+                </div>
+              </div>
+
+              {% set total_quantity = total_quantity + item.num %}
+              {% set total_price = total_price + (item.price * item.num) %}
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- 合計金額 -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+          <h4 class="text-lg font-semibold text-gray-700 mb-4">合計</h4>
+          <ul class="space-y-2 text-gray-700 text-md">
+            <li>合計個数: {{ total_quantity }}個</li>
+            <li>合計金額: &yen;{{ total_price|number_format(0, ".", ",") }}</li>
+          </ul>
+        </div>
+
+        <!-- 購入確定フォーム -->
+        <form method="post" action="{{ constant('ibarakikensan\\common\\Bootstrap::ENTRY_URL') }}controller/cart/purchase_complete.php" class="mt-8 space-y-6">
+          {% for key, item in dataArr %}
+            <input type="hidden" name="{{ key }}[product_id]" value="{{ item.product_id }}">
+            <input type="hidden" name="{{ key }}[product_name]" value="{{ item.product_name }}">
+            <input type="hidden" name="{{ key }}[crt_id]" value="{{ item.crt_id }}">
+            <input type="hidden" name="{{ key }}[num]" value="{{ item.num }}">
+             <input type="hidden" name="{{ key }}[price]" value="{{ item.price }}">
+          {% endfor %}
+
+          <!-- クレジットカード情報 -->
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <h4 class="text-lg font-semibold text-gray-700 mb-4">クレジットカード情報</h4>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-gray-600 text-sm mb-1">カード番号</label>
+                <input type="text" name="card_number" maxlength="16" required class="w-full px-3 py-2 border rounded-lg text-gray-700">
+              </div>
+              <div class="flex space-x-4">
+                <div class="w-1/2">
+                  <label class="block text-gray-600 text-sm mb-1">有効期限（月/年）</label>
+                  <input type="text" name="expiration_date" placeholder="MM/YY" required class="w-full px-3 py-2 border rounded-lg text-gray-700">
+                </div>
+                <div class="w-1/2">
+                  <label class="block text-gray-600 text-sm mb-1">セキュリティコード</label>
+                  <input type="text" name="security_code" maxlength="4" required class="w-full px-3 py-2 border rounded-lg text-gray-700">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex space-x-4 mt-6">
+            <button type="submit" name="submit" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">購入を確定する</button>
+            <a href="{{ constant('ibarakikensan\\common\\Bootstrap::ENTRY_URL') }}controller/cart/cart.php" class="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">カートに戻る</a>
+          </div>
+        </form>
+      {% endif %}
+    </div>
+
+    {% include "user/footer.twig" %}
+  </body>
+</html>

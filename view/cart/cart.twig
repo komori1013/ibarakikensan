@@ -58,7 +58,7 @@
         {% endif %}
       </div>
 
-      <form method="post" action="{{ constant('ibarakikensan\\common\\Bootstrap::ENTRY_URL') }}controller/cart/payment.php">
+      <form method="post" action="{{ constant('ibarakikensan\\common\\Bootstrap::ENTRY_URL') }}controller/cart/purchase_confirm.php">
         {% for key, value in dataArr %}
           {% for k,v in value %}
             <input type="hidden" name="{{ key }}[{{ k }}]" value="{{ v }}">
